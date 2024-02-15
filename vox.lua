@@ -19,9 +19,9 @@ local alpha = 0.55
 local vox_params = paramset.new()
 
 local cs_phrase = controlspec.new(1, 10, 'lin', 1 , 1, "")
-local cs_freq = controlspec.new(1, 20000, 'exp', 1, 10, "")
-local cs_scale = controlspec.new(0.001, 10.0, 'lin', 0.001, 1.0, "")
-local cs_alpha = controlspec.new(0.001, 1.0, 'lin', 0.001, 0.55, "")
+local cs_freq = controlspec.new(1, 40000, 'exp', 1, 10, "")
+local cs_scale = controlspec.new(0.005, 20.0, 'lin', 0.001, 1.0, "")
+local cs_alpha = controlspec.new(0.0, 1.0, 'lin', 0.001, 0.55, "")
 
 function set_phrase(cs, x)
 	engine.phrase(cs:map(x))

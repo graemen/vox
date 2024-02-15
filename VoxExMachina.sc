@@ -40,68 +40,30 @@ VoxExMachina {
             \mode, -1,
             \time, 1.0,
             \shape, 0.55,
-            \voice, 0
-            
+            \voice, 0,
+            \gap, 5 
         ]);
     }
 
     // these methods will populate in SuperCollider when we instantiate the class
 	//   'trigger' to play a note with the current 'params' settings:
-	trigger { arg phrase];
+	trigger { arg delay;
 		
 		// '++ params.getPairs' iterates through all the 'params' above,
 		//   and sends them as [key, value] pairs
         vp = case
-        {phrase == 1}{
-                    synth = Synth.new('vox.vem', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {phrase == 2}{
-                    synth = Synth.new('vox.hal', [out: context.out_b.index] ++ params.getPairs, context.xg);
-            wait(5 * timeScale);
-                    synth.free
-                }
-        {phrase == 3}{
-                    synth = Synth.new('vox.batty', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {phrase == 4}{
-                    synth = Synth.new('vox.maria', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {bufnphraseum == 5}{
-                    synth = Synth.new('vox.terminator', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {phrase == 6}{
-                    synth = Synth.new('vox.lighthouse', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {phrase == 7}{
-                    synth = Synth.new('vox.nord', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {phrase == 8}{
-                    synth = Synth.new('vox.eur', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {phrase == 9}{
-                    synth = Synth.new('vox.joy', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
-        {phrase == 10}{
-                    synth = Synth.new('vox.pw', [out: context.out_b.index] ++ params.getPairs, context.xg);
-                    wait(5 * timeScale);
-                    synth.free
-        }
+        {phrase == 1}{synth = Synth.new('vox.vem', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 2}{synth = Synth.new('vox.hal', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 3}{synth = Synth.new('vox.batty', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 4}{synth = Synth.new('vox.maria', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 5}{synth = Synth.new('vox.terminator', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 6}{synth = Synth.new('vox.lighthouse', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 7}{synth = Synth.new('vox.nord', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 8}{synth = Synth.new('vox.eur', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 9}{synth = Synth.new('vox.joy', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        {phrase == 10}{synth = Synth.new('vox.pw', [out: context.out_b.index] ++ params.getPairs, context.xg);}
+        wait(delay);
+        synth.free;
 	}
 
 	//   'setParam' to set one of our 'params' to a new value:
