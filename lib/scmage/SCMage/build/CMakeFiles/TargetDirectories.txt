@@ -1,0 +1,3 @@
+/home/we/vox/SCMage/build/CMakeFiles/rebuild_cache.dir
+/home/we/vox/SCMage/build/CMakeFiles/edit_cache.dir
+/home/we/vox/SCMage/build/CMakeFiles/SCMage.dir

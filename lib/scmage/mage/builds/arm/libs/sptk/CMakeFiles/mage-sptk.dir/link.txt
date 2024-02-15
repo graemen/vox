@@ -1,0 +1,1 @@
+/usr/bin/g++  -fPIC  -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libmage-sptk.so -o ../../../../bin/Release/libmage-sptk.so CMakeFiles/mage-sptk.dir/fft-sptk.c.o CMakeFiles/mage-sptk.dir/getmem-sptk.c.o CMakeFiles/mage-sptk.dir/mlsacheck-sptk.c.o -lm 

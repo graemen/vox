@@ -1,0 +1,1 @@
+/usr/bin/g++    -fPIC -O3 -DNDEBUG   CMakeFiles/memorytest.dir/main.cpp.o  -o ../../../../bin/Release/memorytest -Wl,-rpath,/home/we/vox/mage/bin/Release -rdynamic -lpthread -lm ../../../../bin/Release/libmage.so -lpthread ../../../../bin/Release/libmage-htsengine.so ../../../../bin/Release/libmage-sptk.so -lm 

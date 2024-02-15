@@ -1,0 +1,62 @@
+== General Information ==
+* For linux, we use cmake to compile mage as a shared library (actually a group of shared libs, libmage.so being the main one), and the executables in ./examples as well as the mage~ puredata object (max/msp is only for OSX and Windows).
+* If you manage to have openframeworks properly compiled, there are more ./examples to compile though some may not make any actual sound if they use both OF and puredata (e.g. ofOscControl) and you don't find a proper sound configuration.
+* this was tested and used on Ubuntu 10.04.x 64-bit. 
+* the cmake configs files for the OF examples are quite "unclean" and have some ubuntu-ism in the lib paths. More recent versions of ubuntu may need some adaptations. Please let us know of any such trouble.
+
+== Compilation ==
+
+Release:
+$ mkdir -p builds/linux-x64-release/
+$ cd builds/linux-x64-release/
+$ cmake ../..
+$ make
+
+Debug:
+$ mkdir -p builds/linux-x64-debug/
+$ cd builds/linux-x64-debug/
+$ cmake ../.. -DCMAKE_BUILD_TYPE=Debug
+(or use ccmake after cmake ../.., to change BUILD_TYPE option to Debug)
+$ make
+
+=== Using an IDE ===
+
+Once the Makefiles have been generated, you can also consider using an IDE such as Netbeans or Eclipse (or any other) to create and configure a project accordingly. Netbeans option is "New Project --> C/C++ project with Existing Sources" + select the mage folder + make your configuration as desired with the generated Makefiles. Recent Netbeans seems to be able to directly handle cmake, but we did not test it yet.
+
+=== Notes ===
+* the naming of the folder (builds/linux-x64-...) for building out-of-source with cmake is not really important, but .gitignore is configured to ignore everything in any folder named build, builds, Build or Builds. Feel free to follow your own convention though.
+* git is configured to ignore netbeans project files created in the mage folder.
+* without openframeworks, the cmake configuration is generalist enough that it should compile just fine on OSX (and maybe even on Windows).
+* trained voices and configuration files are available at http://mage.numediart.org/files/data.zip
+
+=== With openFrameworks ===
+
+to use the openFrameworks-based enterface12 application:
+
+1. have openFrameworks compiled and installed somewhere (default: /opt/openframeworks). NB: on linux, we tested with OF version 0071, however if the organization of OF libraries didn't change, later versions (0073 at time of writing) should work fine too.
+2. have OfxOsc plugin of openFrameworks compiled and installed somewhere (default: /opt/ofxosc)
+3. ccmake . + set USE_OPENFRAMEWORKS to true + rerun config + change value for 
+
+or do all of this directly in the first cmake command-line above, setting -DUSE_OPENFRAMEWORKS -DOF_ROOT_PATH and -DOFXOSC_ROOT_PATH accordingly
+
+OfxOsc plugin can be downloaded with a CMake build config there : https://github.com/celsius/ofxosc
+
+NB: if you manage to have OfxOsc compiled and installed within openFrameworks without jumping through hoops, good for you. I couldn't so I compiled it separately. And don't get me started on using codeblocks ...
+
+TODO explain file tree for oF and OfxOsc
+
+
+== Documentation ==
+
+We use Doxygen to generate the documentation. The config file is in './doc'.
+
+to generate the documentation in html and LaTeX format:
+
+$ cd doc
+$ doxygen
+
+to generate the pdf from the LaTex, run the Makefile in './doc/latex':
+
+$ cd latex
+$ make
+

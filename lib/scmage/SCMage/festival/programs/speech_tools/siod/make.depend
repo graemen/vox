@@ -1,0 +1,18 @@
+ ######################################################################
+ # 
+ # 	Dependencies created for inclusion in siod/Makefile.
+ #		Tue Mar 24 04:46:36 +07 2020
+ # 
+ ######################################################################
+
+siodeditline.o: siodeditline.c ../include/EST_unix.h \
+ ../include/EST_system.h ../include/unix/EST_defines_unix.h \
+ ../include/EST_cutils.h ../include/EST_common.h ../include/EST_bool.h \
+ ../include/EST_walloc.h siodeditline.h editline.h el_unix.h \
+ ../include/EST_walloc.h
+el_complete.o: el_complete.c editline.h el_unix.h ../include/EST_walloc.h
+editline.o: editline.c editline.h el_unix.h ../include/EST_walloc.h \
+ ../include/EST_unix.h ../include/EST_system.h \
+ ../include/unix/EST_defines_unix.h
+el_sys_unix.o: el_sys_unix.c editline.h el_unix.h ../include/EST_walloc.h
+INCLUDED_MAKE_DEPEND=1

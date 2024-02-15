@@ -1,0 +1,1 @@
+/usr/bin/g++    -fPIC -O3 -DNDEBUG   CMakeFiles/pHTSbatch.dir/src/pHTSbatch.cpp.o  -o ../../../../bin/Release/pHTSbatch -Wl,-rpath,/home/we/vox/mage/bin/Release -rdynamic ../../../../bin/Release/libmage.so -lpthread ../../../../bin/Release/libmage-htsengine.so ../../../../bin/Release/libmage-sptk.so -lm 

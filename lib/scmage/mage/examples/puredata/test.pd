@@ -1,0 +1,131 @@
+#N canvas 0 22 1899 1087 24;
+#X obj 836 796 mage~;
+#X obj 828 939 dac~;
+#X msg 428 199 alpha \$1;
+#X msg 544 216 speed \$1;
+#X msg 662 200 volume \$1;
+#X obj 439 139 hsl 64 15 0.1 0.9 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 551 109 hsl 64 15 12 1200 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 665 116 hsl 64 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 464 161 5 0 0 0 - - -;
+#X floatatom 558 188 5 0 0 0 - - -;
+#X floatatom 693 163 5 0 0 0 - - -;
+#X obj 566 132 / 240;
+#X obj 556 158 pow -1;
+#X msg 554 76 set 240;
+#X msg 660 77 set 1;
+#X msg 428 90 set 0.55;
+#X msg 653 725 reset;
+#X msg 662 200 volume \$1;
+#X obj 814 119 hsl 64 15 20 1000 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 839 163 5 0 0 0 - - -;
+#X msg 810 76 set 1;
+#X msg 810 201 pitchoverwrite \$1;
+#X obj 1045 119 hsl 64 15 0.25 4 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 1070 163 5 0 0 0 - - -;
+#X msg 1041 76 set 1;
+#X msg 1041 201 pitchscale \$1;
+#X obj 1231 118 hsl 64 15 -200 1000 0 0 empty empty empty -2 -8 0 10
+-262144 -1 -1 0 1;
+#X floatatom 1256 162 5 0 0 0 - - -;
+#X msg 1227 75 set 1;
+#X msg 1227 200 pitchshift \$1;
+#X msg 849 284 pitchsynth;
+#X msg 1118 566 labelfill;
+#X msg 1119 597 labelnext;
+#X msg 1078 493 label ./inouts/labels/alice02.lab;
+#X msg 1094 436 label ./inouts/labels/alice01.lab;
+#X msg 1119 663 labelreplace 42;
+#X msg 1121 694 labelswitch -15;
+#X obj 1259 539 hsl 64 15 0 200 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X msg 1119 630 labelinsert \$1;
+#X msg 1625 590 bang;
+#X msg 1687 583 stop;
+#X obj 1666 634 metro 250;
+#X obj 284 496 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 39 495 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X msg 281 529 interpolate awb \$1;
+#X msg 34 528 interpolate slt \$1;
+#X msg 562 726 debug;
+#N canvas 245 88 621 465 Licence 0;
+#X text 65 34 This file is part of MAGE / pHTS;
+#X text 64 49 (the performative HMM-based speech synthesis system)
+;
+#X text 65 73 MAGE / pHTS is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the license \, or any later version.;
+#X text 65 134 MAGE / pHTS is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \, without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 66 209 You should have received a copy of the GNU General Public
+License along with MAGE / pHTS. If not \, see http://www.gnu.org/licenses
+;
+#X text 44 19 /* -----------------------------------------------------
+*/;
+#X text 66 263 Copyright 2011 University of Mons :;
+#X text 126 281 Numediart Institute for New Media Art;
+#X text 259 295 ( www.numediart.org );
+#X text 126 309 Acapela Group ( www.acapela-group.com );
+#X text 70 338 Developed by :;
+#X text 128 359 Maria Astrinaki \, Alexis Moinet \, Geoffrey Wilfart
+\,;
+#X text 204 373 Nicolas d'Alessandro \, Thierry Dutoit;
+#X text 70 394 /* ------------------------------------------------------
+*/;
+#X restore 1462 912 pd Licence;
+#X connect 0 0 1 0;
+#X connect 0 0 1 1;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 8 0;
+#X connect 5 0 2 0;
+#X connect 6 0 3 0;
+#X connect 6 0 11 0;
+#X connect 7 0 4 0;
+#X connect 7 0 10 0;
+#X connect 11 0 12 0;
+#X connect 12 0 9 0;
+#X connect 13 0 6 0;
+#X connect 14 0 7 0;
+#X connect 15 0 5 0;
+#X connect 16 0 0 0;
+#X connect 18 0 21 0;
+#X connect 18 0 19 0;
+#X connect 20 0 18 0;
+#X connect 21 0 0 0;
+#X connect 22 0 25 0;
+#X connect 22 0 23 0;
+#X connect 24 0 22 0;
+#X connect 25 0 0 0;
+#X connect 26 0 29 0;
+#X connect 26 0 27 0;
+#X connect 28 0 26 0;
+#X connect 29 0 0 0;
+#X connect 30 0 0 0;
+#X connect 31 0 0 0;
+#X connect 32 0 0 0;
+#X connect 33 0 0 0;
+#X connect 34 0 0 0;
+#X connect 35 0 0 0;
+#X connect 36 0 0 0;
+#X connect 37 0 38 0;
+#X connect 38 0 0 0;
+#X connect 39 0 41 0;
+#X connect 40 0 41 0;
+#X connect 41 0 32 0;
+#X connect 42 0 44 0;
+#X connect 43 0 45 0;
+#X connect 44 0 0 0;
+#X connect 45 0 0 0;
+#X connect 46 0 0 0;

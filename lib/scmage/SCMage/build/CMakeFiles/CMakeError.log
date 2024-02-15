@@ -1,0 +1,102 @@
+Performing C SOURCE FILE Test HAS_SSE failed with the following output:
+Change Dir: /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8fae7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8fae7.dir/build.make CMakeFiles/cmTC_8fae7.dir/build
+make[1]: Entering directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8fae7.dir/src.c.o
+/usr/bin/gcc    -DHAS_SSE   -msse -o CMakeFiles/cmTC_8fae7.dir/src.c.o   -c /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp/src.c
+gcc: error: unrecognized command line option '-msse'
+CMakeFiles/cmTC_8fae7.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_8fae7.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_8fae7.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_8fae7/fast' failed
+make: *** [cmTC_8fae7/fast] Error 2
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test HAS_CXX_SSE failed with the following output:
+Change Dir: /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_00f1e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_00f1e.dir/build.make CMakeFiles/cmTC_00f1e.dir/build
+make[1]: Entering directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_00f1e.dir/src.cxx.o
+/usr/bin/g++     -DHAS_CXX_SSE   -msse -o CMakeFiles/cmTC_00f1e.dir/src.cxx.o -c /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp/src.cxx
+g++: error: unrecognized command line option '-msse'
+CMakeFiles/cmTC_00f1e.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_00f1e.dir/src.cxx.o' failed
+make[1]: *** [CMakeFiles/cmTC_00f1e.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_00f1e/fast' failed
+make: *** [cmTC_00f1e/fast] Error 2
+
+Source file was:
+int main() { return 0; }
+Performing C SOURCE FILE Test HAS_SSE2 failed with the following output:
+Change Dir: /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f391b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f391b.dir/build.make CMakeFiles/cmTC_f391b.dir/build
+make[1]: Entering directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f391b.dir/src.c.o
+/usr/bin/gcc    -DHAS_SSE2   -msse2 -o CMakeFiles/cmTC_f391b.dir/src.c.o   -c /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp/src.c
+gcc: error: unrecognized command line option '-msse2'
+CMakeFiles/cmTC_f391b.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_f391b.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_f391b.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_f391b/fast' failed
+make: *** [cmTC_f391b/fast] Error 2
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test HAS_CXX_SSE2 failed with the following output:
+Change Dir: /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_81588/fast"
+/usr/bin/make -f CMakeFiles/cmTC_81588.dir/build.make CMakeFiles/cmTC_81588.dir/build
+make[1]: Entering directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_81588.dir/src.cxx.o
+/usr/bin/g++     -DHAS_CXX_SSE2   -msse2 -o CMakeFiles/cmTC_81588.dir/src.cxx.o -c /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp/src.cxx
+g++: error: unrecognized command line option '-msse2'
+CMakeFiles/cmTC_81588.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_81588.dir/src.cxx.o' failed
+make[1]: *** [CMakeFiles/cmTC_81588.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_81588/fast' failed
+make: *** [cmTC_81588/fast] Error 2
+
+Source file was:
+int main() { return 0; }
+Performing C SOURCE FILE Test HAS_FPMATH_SSE failed with the following output:
+Change Dir: /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0dfc3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0dfc3.dir/build.make CMakeFiles/cmTC_0dfc3.dir/build
+make[1]: Entering directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0dfc3.dir/src.c.o
+/usr/bin/gcc    -DHAS_FPMATH_SSE   -mfpmath=sse -o CMakeFiles/cmTC_0dfc3.dir/src.c.o   -c /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp/src.c
+gcc: error: unrecognized command line option '-mfpmath=sse'
+CMakeFiles/cmTC_0dfc3.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_0dfc3.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_0dfc3.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_0dfc3/fast' failed
+make: *** [cmTC_0dfc3/fast] Error 2
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test HAS_CXX_FPMATH_SSE failed with the following output:
+Change Dir: /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_84c52/fast"
+/usr/bin/make -f CMakeFiles/cmTC_84c52.dir/build.make CMakeFiles/cmTC_84c52.dir/build
+make[1]: Entering directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_84c52.dir/src.cxx.o
+/usr/bin/g++     -DHAS_CXX_FPMATH_SSE   -mfpmath=sse -o CMakeFiles/cmTC_84c52.dir/src.cxx.o -c /home/we/vox/SCMage/build/CMakeFiles/CMakeTmp/src.cxx
+g++: error: unrecognized command line option '-mfpmath=sse'
+CMakeFiles/cmTC_84c52.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_84c52.dir/src.cxx.o' failed
+make[1]: *** [CMakeFiles/cmTC_84c52.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/we/vox/SCMage/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_84c52/fast' failed
+make: *** [cmTC_84c52/fast] Error 2
+
+Source file was:
+int main() { return 0; }

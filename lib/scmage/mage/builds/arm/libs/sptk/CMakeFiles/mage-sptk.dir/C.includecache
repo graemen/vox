@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/we/vox/mage/libs/sptk/fft-sptk.c
+fft-sptk.h
+/home/we/vox/mage/libs/sptk/fft-sptk.h
+
+/home/we/vox/mage/libs/sptk/fft-sptk.h
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+getmem-sptk.h
+/home/we/vox/mage/libs/sptk/getmem-sptk.h
+
+/home/we/vox/mage/libs/sptk/getmem-sptk.c
+getmem-sptk.h
+/home/we/vox/mage/libs/sptk/getmem-sptk.h
+
+/home/we/vox/mage/libs/sptk/getmem-sptk.h
+stdio.h
+-
+stdlib.h
+-
+
+/home/we/vox/mage/libs/sptk/mlsacheck-sptk.c
+mlsacheck-sptk.h
+/home/we/vox/mage/libs/sptk/mlsacheck-sptk.h
+
+/home/we/vox/mage/libs/sptk/mlsacheck-sptk.h
+stdio.h
+-
+stdlib.h
+-
+fft-sptk.h
+/home/we/vox/mage/libs/sptk/fft-sptk.h
+getmem-sptk.h
+/home/we/vox/mage/libs/sptk/getmem-sptk.h
+

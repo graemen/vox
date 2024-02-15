@@ -1,0 +1,1 @@
+/usr/bin/g++  -fPIC  -std=c++11  -shared  -o SCMage.so CMakeFiles/SCMage.dir/SCMage.cpp.o -lmage 

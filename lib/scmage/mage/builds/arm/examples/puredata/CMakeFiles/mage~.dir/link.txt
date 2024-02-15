@@ -1,0 +1,1 @@
+/usr/bin/g++  -fPIC  -fPIC -DPD -O2 -funroll-loops -fomit-frame-pointer -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,mage~.pd_linux -o "../../../../bin/Release/mage~.pd_linux" "CMakeFiles/mage~.dir/mage~.cpp.o" -Wl,-rpath,/home/we/vox/mage/bin/Release ../../../../bin/Release/libmage.so -lpthread ../../../../bin/Release/libmage-htsengine.so ../../../../bin/Release/libmage-sptk.so -lm 
