@@ -231,7 +231,8 @@ osc.event = function(path, args, from)
   elseif path == "/hexvoltage" then
     set_phrase(cs_phrase, args[1])
     set_alpha(cs_alpha, args[2])
-    print("/hexvoltage", args[1], args[2])
+    engine.voice(args[3])
+    print("/hexvoltage", args[1]*15, args[2])
   
   elseif path == "/voxvoltage" then
     set_toggle()
