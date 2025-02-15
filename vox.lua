@@ -12,49 +12,44 @@ local voice_names = {"awb","bdl","clb","jmk","rms","slt"}
 local mode = 1
 local freq_modes = {"off", "rep", "add", "mul"}
 
-local mute = 0
+local mute = 1
 local edit = 0
 
 local phrase = 0 
-
 local freq = 200
 local freq_max = 20000
-
 local scale = 1.0
 local scale_max = 60.0
-
 local gap = 2.0
 local gap_max = 60.0
-
 local alpha = 0.55
 local alpha_max = 1.0
+
+local vox_min = 0.01
 
 local params = paramset.new()
 
 -- discrete params
-local cs_mute   = controlspec.new(0,  1, 'lin', 1, 0, "")
 local cs_voice  = controlspec.new(0,  5, 'lin', 1, 0, "")
 local cs_mode   = controlspec.new(-1, 2, 'lin', 1, 0, "")
 local cs_phrase = controlspec.new(0,  15,'lin', 1, 0, "")
 
 -- continuous params - minimums are tested minimums 
-local cs_freq   = controlspec.new(1,    freq_max,  'exp', 1,    200, "")
-local cs_alpha  = controlspec.new(0.01, alpha_max, 'lin', 0.01, 0.55, "")
-local cs_scale  = controlspec.new(0.01, scale_max, 'lin', 0.01, 1.0, "")
-local cs_gap    = controlspec.new(0.01, gap_max,   'lin', 0.01, 2.00, "")
+local cs_freq   = controlspec.new(1,       freq_max,  'exp', 1,       200, "")
+local cs_alpha  = controlspec.new(vox_min, alpha_max, 'lin', vox_min, 0.55, "")
+local cs_scale  = controlspec.new(vox_min, scale_max, 'lin', vox_min, 1.0, "")
+local cs_gap    = controlspec.new(vox_min, gap_max,   'lin', vox_min, 2.00, "")
 
 -- edit control
-local cs_edit   = controlspec.new(0, 7, 'lin', 1, 0, "")
+local cs_netvoltage = controlspec.new(vox_min, 65535, 'lin', 1, 0, "")
 
 local rx_osc = 0;
 
-function set_mute(cs,x)
-  -- engine.mute(cs:map(x))
-  -- mute = cs:map(x)  
-  -- set volume back or to zero
-  mute = not mute
-  if mute then params:set("output_level", -60) end
-  if not mute then params:set("output_level", 0) end
+function set_mute()
+  if mute == 1 then mute = 0 end;
+  if mute == 0 then mute = 1 end;
+  -- set voxAmp to 0 or 1
+  engine.mute(mute)
 end
 
 function set_voice(cs, x)
@@ -92,12 +87,11 @@ function set_gap(cs, x)
 	gap = cs:map(x)
 end
 
-function set_edit(cs, x)
+function set_edit(x)
   edit = edit + 1
 	  if edit == 8 then
 	      edit = 0
 	  end
-  edit = cs:map(x)  
 end
 
 -- input one for gap, scale, alpha
@@ -205,49 +199,49 @@ function key(n,z)
 
      -- mute on/off
     if edit == 0 then
-      set_mute(mute)
+      set_mute()
     end
 
     -- voice selection
     if edit == 1 then
       voice = voice + 1
       if voice > 5 then voice = 0 end    
-      set_voice(voice)
+      engine.voice(voice)
     end
     
     -- mode selection
     if edit == 3 then
       mode = mode + 1
       if mode > 2 then mode = -1 end
-      set_mode(mode)
+      engine.mode(mode)
     end
    
    -- freq selection
     if edit == 4 then
       freq = freq + 1
-      if freq > freq_max then freq = 0 end 
-      set_freq(freq)
+      if freq > freq_max then freq = 1 end 
+      engine.freq(freq)
     end
     
     -- scale selection
     if edit == 5 then
       scale = scale + 0.1
-      if scale > scale_max then scale = 0 end 
-      set_scale(scale)
+      if scale > scale_max then scale = voxmin end 
+      engine.scale(scale)
     end
 
   -- alpha selection
     if edit == 6 then
       alpha = alpha + 0.01
-      if alpha > alpha_max then alpha = 0 end 
-      set_alpha(alpha)
+      if alpha > alpha_max then alpha = vox_min end 
+      engine.alpha(alpha)
     end
     
     -- gap selection
     if edit == 7 then
       gap = gap + 1
-      if gap > gap_max then gap = 0 end 
-      set_gap(gap)
+      if gap > gap_max then gap = vox_min end 
+      engine.gap(gap)
     end
 
    
@@ -288,41 +282,37 @@ function enc(n, delta)
 end
 
 -- OSC rx working
---NetVoltage: [ /netvoltage, 1701484416.0, 10, 9001, 45152, 4480, 4428 ]
+--NetVoltage: [ /netvoltage, 1701484416.0, 2, 9001, 45152, 4480, 4428 ]
 --HexVoltage: [ /hexvoltage, 3, 0.55 ]
 --VoxVoltage  [ /voxvoltage, ["on", "off"] ]
 
 osc.event = function(path, args, from)
   --print("osc from " .. from[1] .. " port " .. from[2])
- if path == "/netvoltage" then
+ 
+  -- network traffic mapping
+  if path == "/netvoltage" then
     
-    dst = args[3]/6000
-    src = args[4]/6000
-    sz_diff = (args[6] - args[5])/10.0
+    set_voice(cs_voice, args[2])
+    set_freq(cs_netvoltage, args[3])
+    set_scale(cs_netvoltage, args[4])
     
-    if edit == 3 then 
-      set_freq(cs_freq, src)
-    elseif edit == 4 then
-      set_scale(cs_scale, dst)
-    elseif edit == 5 then
-      --params:delta("alpha", src/6000.0)
-    elseif edit == 6 then
-      set_gap(cs_gap, sz_diff)
-    else
-      do end
-    end
-    print("/netvoltage", src, dst, sz_diff) 
+    gap = (args[6] - args[5])/10.0 --packet size difference
+    set_gap(cs_gap, gap)
+    print("/netvoltage",args[1],args[2],args[3],args[4],args[5],args[6], gap) 
   
+  -- files as hexadecimal  
   elseif path == "/hexvoltage" then
+    
     set_phrase(cs_phrase, args[1])
     set_alpha(cs_alpha, args[2])
-    --engine.voice(args[3])
     set_voice(cs_voice, args[3])
     print("/hexvoltage", args[1]*15, args[2])
   
+  -- mute control
   elseif path == "/voxvoltage" then
-    set_mute()
-    print("/voxvoltage")
+    
+    set_mute(args[1])
+    print("/voxvoltage", args[1])
   
   else
     print(path)
@@ -348,7 +338,7 @@ function redraw()
   x2 = 70
   x3 = 90
   
-  indicator = "~~"
+  indicator = "~"
   blank = " "
   
   screen.aa(1)
@@ -362,7 +352,7 @@ function redraw()
   
   
  -- sttaus display   
-  if mute then screen.text("[]") else screen.text(">>" ) end
+  if mute == 0 then screen.text(". ") else screen.text("> " ) end
  
  -- indicator
   if edit == 0 then screen.text(indicator) else screen.text("  ") end

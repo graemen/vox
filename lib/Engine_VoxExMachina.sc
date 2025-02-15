@@ -13,7 +13,6 @@ Engine_VoxExMachina : CroneEngine{
     var voxFreq = 200;
     var voxMode = 1;
     var voxAmp = 1.0;
-    var voxMute = 0;
     
     var vm;
     var vp;
@@ -193,8 +192,7 @@ Engine_VoxExMachina : CroneEngine{
         });
 
         this.addCommand("mute", "i", {|msg|
-            voxMute = voxMute.not;
-            voxAmp = voxMute;
+            voxAmp = msg[1];
         });
     }
 
