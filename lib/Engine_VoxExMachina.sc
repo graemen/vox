@@ -13,11 +13,12 @@ Engine_VoxExMachina : CroneEngine{
     var voxFreq = 200;
     var voxMode = 1;
     var voxAmp = 1.0;
-
+    var voxMute = 0;
+    
     var vm;
     var vp;
 
-    var <isRunning = true;
+    
 
     // this is your constructor. the 'context' arg is a CroneAudioContext.
     // it provides input and output busses and groups.
@@ -163,6 +164,14 @@ Engine_VoxExMachina : CroneEngine{
         // synth commands
         // the format string is analogous to an OSC message format string,
         // and the 'msg' argument contains data.
+        this.addCommand("voice", "i", {|msg|
+            voxVoice = msg[1];
+        });
+
+        this.addCommand("phrase", "i", {|msg|
+	          voxPhrase = msg[1];
+        });
+        
         this.addCommand("mode", "i", {|msg|
              voxMode = msg[1]-1;
         });
@@ -170,15 +179,7 @@ Engine_VoxExMachina : CroneEngine{
         this.addCommand("freq", "i", {|msg|
 	          voxFreq = msg[1];
         });
-
-        this.addCommand("phrase", "i", {|msg|
-	          voxPhrase = msg[1];
-        });
-
-        this.addCommand("voice", "i", {|msg|
-            voxVoice = msg[1];
-        });
-
+       
         this.addCommand("scale", "f", {|msg|
             voxScale = msg[1];
         });
@@ -191,8 +192,9 @@ Engine_VoxExMachina : CroneEngine{
             voxGap = msg[1];
         });
 
-        this.addCommand("toggle", "", {
-            isRunning = isRunning.not;
+        this.addCommand("mute", "i", {|msg|
+            voxMute = voxMute.not;
+            voxAmp = voxMute;
         });
     }
 

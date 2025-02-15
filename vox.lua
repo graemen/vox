@@ -5,33 +5,66 @@
 
 engine.name = 'VoxExMachina'
 
--- voice range is 0-5
 local voice = 5
 local voice_names = {"awb","bdl","clb","jmk","rms","slt"}
 
-
-local mode = 2
+-- modes are -1, 0, 1, 2
+local mode = 1
 local freq_modes = {"off", "rep", "add", "mul"}
 
+local mute = 0
 local edit = 0
+
 local phrase = 0 
+
 local freq = 200
+local freq_max = 20000
+
 local scale = 1.0
-local alpha = 0.55
+local scale_max = 60.0
+
 local gap = 2.0
+local gap_max = 60.0
+
+local alpha = 0.55
+local alpha_max = 1.0
+
 local params = paramset.new()
 
+-- discrete params
+local cs_mute   = controlspec.new(0,  1, 'lin', 1, 0, "")
+local cs_voice  = controlspec.new(0,  5, 'lin', 1, 0, "")
+local cs_mode   = controlspec.new(-1, 2, 'lin', 1, 0, "")
+local cs_phrase = controlspec.new(0,  15,'lin', 1, 0, "")
 
-local cs_phrase = controlspec.new(0,    15,    'lin', 1,   0, "")
-local cs_freq   = controlspec.new(1,    20000, 'exp', 1,    200, "")
-local cs_scale  = controlspec.new(0.01, 10.0,  'lin', 0.01, 1.0, "")
-local cs_alpha  = controlspec.new(0.01, 1.0,   'lin', 0.01, 0.55, "")
-local cs_gap    = controlspec.new(0.5,  60.00, 'exp', 0.01, 2.00, "")
+-- continuous params - minimums are tested minimums 
+local cs_freq   = controlspec.new(1,    freq_max,  'exp', 1,    200, "")
+local cs_alpha  = controlspec.new(0.01, alpha_max, 'lin', 0.01, 0.55, "")
+local cs_scale  = controlspec.new(0.01, scale_max, 'lin', 0.01, 1.0, "")
+local cs_gap    = controlspec.new(0.01, gap_max,   'lin', 0.01, 2.00, "")
+
+-- edit control
+local cs_edit   = controlspec.new(0, 7, 'lin', 1, 0, "")
 
 local rx_osc = 0;
 
-function set_toggle()
-  engine.toggle()
+function set_mute(cs,x)
+  -- engine.mute(cs:map(x))
+  -- mute = cs:map(x)  
+  -- set volume back or to zero
+  mute = not mute
+  if mute then params:set("output_level", -60) end
+  if not mute then params:set("output_level", 0) end
+end
+
+function set_voice(cs, x)
+  engine.voice(cs:map(x))
+  voice = cs:map(x)
+end
+
+function set_mode(cs, x)
+  engine.mode(cs:map(x))
+  mode = cs:map(x)
 end
 
 function set_phrase(cs, x)
@@ -59,49 +92,56 @@ function set_gap(cs, x)
 	gap = cs:map(x)
 end
 
--- input one shape/alpha
+function set_edit(cs, x)
+  edit = edit + 1
+	  if edit == 8 then
+	      edit = 0
+	  end
+  edit = cs:map(x)  
+end
+
+-- input one for gap, scale, alpha
 function process_cv_stream(v)
 	
-	-- Input voltage range 0..5V Pamela's Pro Workout
-  -- Input voltage range for Poly2 Gate 0-10V, Pitch 0-10V, CV 0-12V 
-  local min_voltage = 0.0 
-  local max_voltage = 10.0
-  
-  -- Scale and translate the voltage to 0-1 to work as input to control specs
-  local volt = v/max_voltage 
+  -- Input voltage 0 - 5    Pamela's Pro Workout
+  -- Input voltage 0 - 10   Poly2 Gate and Pitch
+  -- Input voltage 0 - 12   Poly2 CV  
+	local volt = v/10.0 
 	
-  -- cv is applied to the one being edited
-  -- cv applied to shape only see OSC for other param control 
-  --if edit == 3 then
-  --  set_gap(cs_gap, volt)
-  --elseif edit == 4 then
-  --  set_freq(cs_freq, volt)
-  --elseif edit == 5 then
-  --  set_scale(cs_scale, volt)
-  --elseif edit == 6 then
-  --  set_alpha(cs_alpha, volt)
-  --else
-   --do end
-  --end  
+  -- cv is applied to the selected
+  if edit == 5 then
+    set_scale(cs_scale, volt)
+  elseif edit == 6 then
+    set_alpha(cs_alpha, volt)
+  elseif edit == 7 then
+    set_gap(cs_gap, volt)
+  else
+   do end
+  end  
   
-  -- update display
   redraw()
 end
 
--- input two stepped random for phrase selection
-function process_phrase_stream(v)
-  -- Input voltage range 0..5V Pamela's Pro Workout
-    -- Input voltage range for Poly2 Gate 0-10V, Pitch 0-10V, CV 0-12V 
-  local min_voltage = 0.0 
-  local max_voltage = 10.0
+-- input two stepped random for phrase, voice or freq cv control
+function process_trigger_stream(v)
+ 	
+  -- Input voltage 0 - 5    Pamela's Pro Workout
+  -- Input voltage 0 - 10   Poly2 Gate and Pitch
+  -- Input voltage 0 - 12   Poly2 CV  
+  local volt = v/5.0 
   
-  -- Scale and translate the voltage to 0-1 to work as input to control specs
-  local volt = v/max_voltage 
-  
-  -- set the phrase
-  set_phrase(cs_phrase, volt)
-	
-  -- update display
+    if edit == 1  then
+      set_voice(cs_voice, volt)
+    elseif edit == 2 then 
+      set_phrase(cs_phrase, volt)
+    elseif edit == 3 then 
+      set_mode(cs_mode, volt)
+    elseif edit == 4 then
+      set_freq(cs_freq, volt)
+    else
+	    do end
+    end
+
   redraw()
 end
 
@@ -111,8 +151,11 @@ function init()
   -- initialization
   
   -- map our supercollider controls to norns parameters
-  params:add_control("toggle")
-  params:set_action("toggle", function(x) set_toggle() end)
+  params:add_control("mute", cs_mute)
+  params:set_action("mute", function(x) set_mute(cs_mute, x) end)
+  
+  params:add_control("voice", cs_voice)
+  params:set_action("voice", function(x) set_voice(cs_voice, x) end)
   
   params:add_control("phrase", cs_phrase)
   params:set_action("phrase", function(x) set_phrase(cs_phrase, x) end)
@@ -120,20 +163,23 @@ function init()
   params:add_control("freq", cs_freq)
   params:set_action("freq", function(x) set_freq(cs_freq, x) end)
 
+  params:add_control("mode", cs_mode)
+  params:set_action("mode", function(x) set_mode(cs_mode, x) end)
+
   params:add_control("scale", cs_scale)
   params:set_action("scale", function(x) set_scale(cs_scale, x) end)
   
   params:add_control("alpha", cs_alpha)
   params:set_action("alpha", function(x) set_alpha(cs_alpha, x) end)
 
-  params:add_control("gap", cs_scale)
+  params:add_control("gap", cs_gap)
   params:set_action("gap", function(x) set_gap(cs_gap, x) end)
 	
   -- two crow inputs for cv of parameters
 	
   -- stepped random voltage in for random phrase
   --crow.input[1].mode("stream", 0.5)
-  --crow.input[1].stream = process_phrase_stream
+  --crow.input[1].stream = process_trigger_stream
   
 	-- cv for varying the alpha/shape
   --crow.input[2].mode("stream", 0.1)
@@ -144,7 +190,9 @@ end
 
 
 function key(n,z)
--- key actions: n = button, z = state
+  -- key actions: n = button, z = state
+
+  -- K2 menu navigation
   if n == 2 and z == 1 then
 	  edit = edit + 1
 	  if edit == 8 then
@@ -152,27 +200,56 @@ function key(n,z)
 	  end
   end
 
-  -- when K3 enter is pressed
-  if n ==  3 and z == 1 then 
+  -- K3 parameter edit
+  if n == 3 and z == 1 then 
 
-     -- toggle engine on/off
+     -- mute on/off
     if edit == 0 then
-      engine.toggle()
+      set_mute(mute)
     end
 
     -- voice selection
     if edit == 1 then
       voice = voice + 1
       if voice > 5 then voice = 0 end    
-      engine.voice(voice)
+      set_voice(voice)
     end
     
     -- mode selection
     if edit == 3 then
       mode = mode + 1
       if mode > 2 then mode = -1 end
-      engine.mode(mode)
+      set_mode(mode)
     end
+   
+   -- freq selection
+    if edit == 4 then
+      freq = freq + 1
+      if freq > freq_max then freq = 0 end 
+      set_freq(freq)
+    end
+    
+    -- scale selection
+    if edit == 5 then
+      scale = scale + 0.1
+      if scale > scale_max then scale = 0 end 
+      set_scale(scale)
+    end
+
+  -- alpha selection
+    if edit == 6 then
+      alpha = alpha + 0.01
+      if alpha > alpha_max then alpha = 0 end 
+      set_alpha(alpha)
+    end
+    
+    -- gap selection
+    if edit == 7 then
+      gap = gap + 1
+      if gap > gap_max then gap = 0 end 
+      set_gap(gap)
+    end
+
    
   end
   redraw()
@@ -180,14 +257,15 @@ end
 
 function enc(n, delta)
   -- encoder actions: n = encoder, d = delta
-  -- map our encoder changes to parameters
+  
+  -- E2 parameter edit
   if n == 2 then
     if edit == 1 then
-      edit = 1
+      params:delta("voice", delta)
     elseif edit == 2  then
       params:delta("phrase", delta)
     elseif edit == 3 then
-      edit = 3
+      params:delta("mode", delta)
     elseif edit == 4 then
       params:delta("freq", delta)
     elseif edit == 5 then
@@ -200,6 +278,12 @@ function enc(n, delta)
       edit = 0 
     end  
   end
+  
+  -- E3 menu navigation
+  if n == 3 then
+    set_edit(edit)
+  end
+  
   redraw()
 end
 
@@ -211,6 +295,7 @@ end
 osc.event = function(path, args, from)
   --print("osc from " .. from[1] .. " port " .. from[2])
  if path == "/netvoltage" then
+    
     dst = args[3]/6000
     src = args[4]/6000
     sz_diff = (args[6] - args[5])/10.0
@@ -219,7 +304,7 @@ osc.event = function(path, args, from)
       set_freq(cs_freq, src)
     elseif edit == 4 then
       set_scale(cs_scale, dst)
-    --elseif edit == 5 then
+    elseif edit == 5 then
       --params:delta("alpha", src/6000.0)
     elseif edit == 6 then
       set_gap(cs_gap, sz_diff)
@@ -231,11 +316,12 @@ osc.event = function(path, args, from)
   elseif path == "/hexvoltage" then
     set_phrase(cs_phrase, args[1])
     set_alpha(cs_alpha, args[2])
-    engine.voice(args[3])
+    --engine.voice(args[3])
+    set_voice(cs_voice, args[3])
     print("/hexvoltage", args[1]*15, args[2])
   
   elseif path == "/voxvoltage" then
-    set_toggle()
+    set_mute()
     print("/voxvoltage")
   
   else
@@ -262,8 +348,7 @@ function redraw()
   x2 = 70
   x3 = 90
   
-  indicator = "+"
-  indicator_cv = "O"
+  indicator = "~~"
   blank = " "
   
   screen.aa(1)
@@ -273,15 +358,20 @@ function redraw()
   
   -- main interface
   screen.move(8, 8)
-  if rx_osc == 0 then screen.text("Vox Ex Machina   ") end
+  screen.text("Vox Ex Machina   ")
+  
+  
+ -- sttaus display   
+  if mute then screen.text("[]") else screen.text(">>" ) end
+ 
+ -- indicator
+  if edit == 0 then screen.text(indicator) else screen.text("  ") end
+ 
   if rx_osc == 1 then 
-    screen.text("Vox Ex Machina H ")
+    screen.text("~^v^~")
     rx_osc = 0	
   end
-  
-  if engine.isRunning then screen.text("^v^ ") else screen.text("off ") end
-  if edit == 0 then screen.text(indicator) else screen.text(" ") end
-  
+ 
   -- controls
   screen.move(x1,y1)
   screen.text("vox: ")
@@ -295,7 +385,7 @@ function redraw()
   screen.move(x2, y2)
   screen.text_right(string.format("%d", phrase))
   screen.move(x3, y2)
-  if edit == 2 then screen.text(indicator_cv) else screen.text(" ") end
+  if edit == 2 then screen.text(indicator) else screen.text(" ") end
   
   screen.move(x1,y3)
   screen.text("sin: ")
@@ -309,28 +399,28 @@ function redraw()
   screen.move(x2,y4)
   screen.text_right(string.format("%d", freq))
   screen.move(x3, y4)
-  if edit == 4 then screen.text(indicator_cv) else screen.text(" ") end
+  if edit == 4 then screen.text(indicator) else screen.text(" ") end
  
   screen.move(x1,y5)
   screen.text("tim: ")
   screen.move(x2, y5)
   screen.text_right(string.format("%.2f", scale)) 
   screen.move(x3, y5)
-  if edit == 5 then screen.text(indicator_cv) else screen.text(" ") end
+  if edit == 5 then screen.text(indicator) else screen.text(" ") end
  
   screen.move(x1,y6)
   screen.text("shp: ")
   screen.move(x2, y6)
   screen.text_right(string.format("%.2f", alpha))
   screen.move(x3, y6)
-  if edit == 6 then screen.text(indicator_cv)  else screen.text(" ") end
+  if edit == 6 then screen.text(indicator)  else screen.text(" ") end
   
   screen.move(x1, y7)
   screen.text("win: ")
   screen.move(x2, y7)
   screen.text_right(string.format("%.2f", gap))
   screen.move(x3, y7)
-  if edit == 7 then screen.text(indicator_cv) else screen.text(" ") end
+  if edit == 7 then screen.text(indicator) else screen.text(" ") end
    
   screen.update()
 end
