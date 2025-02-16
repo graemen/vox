@@ -291,22 +291,28 @@ osc.event = function(path, args, from)
  
   -- network traffic mapping
   if path == "/netvoltage" then
+    -- voice per protocol
+    engine.voice(args[2])
     
-    set_voice(cs_voice, args[2])
-    set_freq(cs_netvoltage, args[3])
-    set_scale(cs_netvoltage, args[4])
+    -- freq 0-20000 mapped from 1-65535
+    set_freq(cs_freq, args[3]/3.3)
     
-    gap = (args[6] - args[5])/10.0 --packet size difference
+    -- scale 0-60 mapped from 1-65535
+    set_scale(cs_scale, args[4]/10000.0)
+    
+    -- gap 0-60 mapped to packet_size_diff
+    gap = (args[6] - args[5])/100.0 --packet size difference
     set_gap(cs_gap, gap)
+    
     print("/netvoltage",args[1],args[2],args[3],args[4],args[5],args[6], gap) 
   
   -- files as hexadecimal  
   elseif path == "/hexvoltage" then
     
     set_phrase(cs_phrase, args[1])
-    set_alpha(cs_alpha, args[2])
-    set_voice(cs_voice, args[3])
-    print("/hexvoltage", args[1]*15, args[2])
+    --set_alpha(cs_alpha, args[2])
+    --set_voice(cs_voice, args[3])
+    print("/hexvoltage", args[1]*15)
   
   -- mute control
   elseif path == "/voxvoltage" then
