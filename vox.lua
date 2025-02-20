@@ -33,6 +33,7 @@ local params = paramset.new()
 local cs_voice  = controlspec.new(0,  5, 'lin', 1, 0, "")
 local cs_mode   = controlspec.new(-1, 2, 'lin', 1, 0, "")
 local cs_phrase = controlspec.new(0,  15,'lin', 1, 0, "")
+local cs_mute   = controlspec.new(0,  1,'lin', 1, 0, "")
 
 -- continuous params - minimums are tested minimums 
 local cs_freq   = controlspec.new(1,       freq_max,  'exp', 1,       200, "")
@@ -45,11 +46,14 @@ local cs_netvoltage = controlspec.new(vox_min, 65535, 'lin', 1, 0, "")
 
 local rx_osc = 0;
 
-function set_mute()
-  if mute == 1 then mute = 0 end;
-  if mute == 0 then mute = 1 end;
-  -- set voxAmp to 0 or 1
-  engine.mute(mute)
+function set_mute(cs,x)
+  if mute == 1 then 
+    mute = 0 
+  else
+    mute = 1
+  end;
+  -- set audio levels to 1 or 0
+  audio.level_dac(mute)
 end
 
 function set_voice(cs, x)
@@ -171,14 +175,13 @@ function init()
 	
   -- two crow inputs for cv of parameters
 	
-  -- stepped random voltage in for random phrase
+  -- input 1 is for clock
   --crow.input[1].mode("stream", 0.5)
   --crow.input[1].stream = process_trigger_stream
   
-	-- cv for varying the alpha/shape
+	-- input 2 is for cv 
   --crow.input[2].mode("stream", 0.1)
   --crow.input[2].stream = process_cv_stream
-  
   
 end
 
@@ -186,20 +189,18 @@ end
 function key(n,z)
   -- key actions: n = button, z = state
 
-  -- K2 menu navigation
-  if n == 2 and z == 1 then
-	  edit = edit + 1
-	  if edit == 8 then
-	      edit = 0
-	  end
-  end
-
   -- K3 parameter edit
   if n == 3 and z == 1 then 
-
+    
      -- mute on/off
     if edit == 0 then
-      set_mute()
+      if mute == 1 then 
+        mute = 0 
+      else 
+        mute = 1
+      end
+      -- set audio levels to 1 or 0
+      audio.level_dac(mute)
     end
 
     -- voice selection
@@ -244,17 +245,19 @@ function key(n,z)
       engine.gap(gap)
     end
 
-   
+   redraw()  
   end
-  redraw()
+    
 end
 
 function enc(n, delta)
   -- encoder actions: n = encoder, d = delta
   
   -- E2 parameter edit
-  if n == 2 then
-    if edit == 1 then
+  if n == 3 then
+    if edit == 0 then
+      params:delta("mute", delta)
+    elseif edit == 1 then
       params:delta("voice", delta)
     elseif edit == 2  then
       params:delta("phrase", delta)
@@ -274,11 +277,11 @@ function enc(n, delta)
   end
   
   -- E3 menu navigation
-  if n == 3 then
+  if n == 2 then
     set_edit(edit)
   end
   
-  redraw()
+   redraw() 
 end
 
 -- OSC rx working
@@ -310,8 +313,8 @@ osc.event = function(path, args, from)
   elseif path == "/hexvoltage" then
     
     set_phrase(cs_phrase, args[1])
-    --set_alpha(cs_alpha, args[2])
-    --set_voice(cs_voice, args[3])
+    set_alpha(cs_alpha, args[2])
+    set_voice(cs_voice, args[3])
     print("/hexvoltage", args[1]*15)
   
   -- mute control
@@ -344,8 +347,8 @@ function redraw()
   x2 = 70
   x3 = 90
   
-  indicator = "~"
-  blank = " "
+  indicator = " ~ "
+  blank = "   "
   
   screen.aa(1)
   screen.level(15)
@@ -354,17 +357,19 @@ function redraw()
   
   -- main interface
   screen.move(8, 8)
-  screen.text("Vox Ex Machina   ")
   
+ -- mute display   
+  if mute == 1 then screen.text("Vox Ex Machina !! ") else screen.text("Vox Ex Machina > ") end
+ 
+ -- menu active indicator
+  if edit == 0 then screen.text(indicator) else screen.text(blank) end
+ 
+ -- clock bpm from crow
+  screen.text(clock.get_tempo())
   
- -- sttaus display   
-  if mute == 0 then screen.text(". ") else screen.text("> " ) end
- 
- -- indicator
-  if edit == 0 then screen.text(indicator) else screen.text("  ") end
- 
+ -- osc rx display from net/hex/vox voltage
   if rx_osc == 1 then 
-    screen.text("~^v^~")
+    screen.text(" v ")
     rx_osc = 0	
   end
  
@@ -374,49 +379,49 @@ function redraw()
   screen.move(x2, y1)
   screen.text_right(voice_names[voice+1])
   screen.move(x3,y1)
-  if edit == 1 then screen.text(indicator) else screen.text(" ") end
+  if edit == 1 then screen.text(indicator) else screen.text(blank) end
     
   screen.move(x1,y2)
   screen.text("hex: " )
   screen.move(x2, y2)
   screen.text_right(string.format("%d", phrase))
   screen.move(x3, y2)
-  if edit == 2 then screen.text(indicator) else screen.text(" ") end
+  if edit == 2 then screen.text(indicator) else screen.text(blank) end
   
   screen.move(x1,y3)
   screen.text("sin: ")
   screen.move(x2,y3)
   screen.text_right(freq_modes[mode+2])
   screen.move(x3, y3)
-  if edit == 3 then screen.text(indicator) else screen.text(" ") end
+  if edit == 3 then screen.text(indicator) else screen.text(blank) end
   
   screen.move(x1,y4)
   screen.text("frq: ")
   screen.move(x2,y4)
   screen.text_right(string.format("%d", freq))
   screen.move(x3, y4)
-  if edit == 4 then screen.text(indicator) else screen.text(" ") end
+  if edit == 4 then screen.text(indicator) else screen.text(blank) end
  
   screen.move(x1,y5)
   screen.text("tim: ")
   screen.move(x2, y5)
   screen.text_right(string.format("%.2f", scale)) 
   screen.move(x3, y5)
-  if edit == 5 then screen.text(indicator) else screen.text(" ") end
+  if edit == 5 then screen.text(indicator) else screen.text(blank) end
  
   screen.move(x1,y6)
   screen.text("shp: ")
   screen.move(x2, y6)
   screen.text_right(string.format("%.2f", alpha))
   screen.move(x3, y6)
-  if edit == 6 then screen.text(indicator)  else screen.text(" ") end
+  if edit == 6 then screen.text(indicator)  else screen.text(blank) end
   
   screen.move(x1, y7)
   screen.text("win: ")
   screen.move(x2, y7)
   screen.text_right(string.format("%.2f", gap))
   screen.move(x3, y7)
-  if edit == 7 then screen.text(indicator) else screen.text(" ") end
+  if edit == 7 then screen.text(indicator) else screen.text(blank) end
    
   screen.update()
 end
