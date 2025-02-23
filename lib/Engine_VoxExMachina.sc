@@ -68,98 +68,6 @@ Engine_VoxExMachina : CroneEngine{
         }, variants: ( zero: [buf: 0], one: [buf: 1], two: [buf: 2], three: [buf: 3], four: [buf: 4], five: [buf: 5], six: [buf: 6], seven: [buf: 7], eight: [buf: 8], nine: [buf: 9], aay: [buf: 10], bee: [buf: 11], see: [buf: 12], dee: [buf: 13], eee: [buf: 14], eff: [buf: 15] )).add;
 
 
-        {
-            true.while({
-			            
-                 //server sync
-                context.server.sync;
-                  
-                  //play phrase thru mage synth
-                  vp = case
-                  {voxPhrase == 0}{
-                              synth = Synth.new('vox.zero', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 1}{
-                              synth = Synth.new('vox.one', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 2}{
-                              synth = Synth.new('vox.two', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                          }
-                  {voxPhrase == 3}{
-                              synth = Synth.new('vox.three', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 4}{
-                              synth = Synth.new('vox.four', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 5}{
-                              synth = Synth.new('vox.five', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 6}{
-                              synth = Synth.new('vox.six', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 7}{
-                              synth = Synth.new('vox.seven', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 8}{
-                              synth = Synth.new('vox.eight', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 9}{
-                              synth = Synth.new('vox.nine', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 10}{
-                              synth = Synth.new('vox.aay', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 11}{
-                              synth = Synth.new('vox.bee', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 12}{
-                              synth = Synth.new('vox.see', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 13}{
-                              synth = Synth.new('vox.dee', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 14}{
-                              synth = Synth.new('vox.eee', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-                  {voxPhrase == 15}{
-                              synth = Synth.new('vox.eff', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
-                      wait(voxGap * voxScale);
-                              synth.free
-                  }
-             
-            });
-        }.fork;
-
         // synth commands
         // the format string is analogous to an OSC message format string,
         // and the 'msg' argument contains data.
@@ -169,6 +77,57 @@ Engine_VoxExMachina : CroneEngine{
 
         this.addCommand("phrase", "i", {|msg|
 	          voxPhrase = msg[1];
+                   //play phrase thru mage synth
+                  voxPhrase = case
+                  {voxPhrase == 0}{
+                              Synth.new('vox.zero', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 1}{
+                               Synth.new('vox.one', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 2}{
+                               Synth.new('vox.two', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                          }
+                  {voxPhrase == 3}{
+                               Synth.new('vox.three', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 4}{
+                               Synth.new('vox.four', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 5}{
+                               Synth.new('vox.five', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 6}{
+                               Synth.new('vox.six', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 7}{
+                               Synth.new('vox.seven', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 8}{
+                               Synth.new('vox.eight', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 9}{
+                               Synth.new('vox.nine', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 10}{
+                               Synth.new('vox.aay', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 11}{
+                               Synth.new('vox.bee', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 12}{
+                               Synth.new('vox.see', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 13}{
+                               Synth.new('vox.dee', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 14}{
+                               Synth.new('vox.eee', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+                  {voxPhrase == 15}{
+                              Synth.new('vox.eff', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
+                  }
+            });
         });
         
         this.addCommand("mode", "i", {|msg|
