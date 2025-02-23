@@ -456,29 +456,5 @@ function cleanup()
   util.os_capture("rm "..folder.."mage-*")
 end
 
-function save_state()
-  params:write(_path.data .. "vox/vox.pset")
-  local file = io.open(_path.data .. "vox/vox_pattern.data", "w+")
-  io.output(file)
-  io.write("vox pattern file v1.0" .. "\n")
-  io.write("vox pattern" .. "\n")
-  io.close(file)
-end
-
-function load_state()
-  params:read(_path.data .. "vox/vox.pset")
-  local file = io.open(_path.data .. "vox/vox_pattern.data", "r")
-  if file then
-    print("vox pattern file loaded")
-    -- all this stuff is required only to manage the real time recording :-)
-    io.input(file)
-    if io.read() == "vox pattern file v1.0" then
-      print("valid data file")
-      io.read() == "vox patttern" 
-    else
-      print("invalid data file")
-    end
-    io.close(file)
-  end
 
 end
