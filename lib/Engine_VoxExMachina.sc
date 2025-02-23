@@ -78,7 +78,7 @@ Engine_VoxExMachina : CroneEngine{
         this.addCommand("phrase", "i", {|msg|
 	          voxPhrase = msg[1];
                    //play phrase thru mage synth
-                  voxPhrase = case
+                  vp = case
                   {voxPhrase == 0}{
                               Synth.new('vox.zero', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
                   }
