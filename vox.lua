@@ -146,9 +146,18 @@ end
 
 
 function init()
-  -- initialization
+  -- font and size
+  screen.font_face(0)
+  screen.font_size(8)
+  screen.aa(0)
+  screen.line_width(1)
+
+    -- reduce encoders sensitivity
+  norns.enc.sens(1, 3)
+  norns.enc.sens(2, 3)
+  norns.enc.sens(3, 3) 
   
-  -- map our supercollider controls to norns parameters
+    -- map our supercollider controls to norns parameters
   params:add_control("mute", cs_mute)
   params:set_action("mute", function(x) set_mute(cs_mute, x) end)
   
@@ -430,4 +439,31 @@ function cleanup()
   --delete temp label files
   folder = "/home/we/dust/data/vox/"
   util.os_capture("rm "..folder.."mage-*")
+end
+
+function save_state()
+  params:write(_path.data .. "vox/vox.pset")
+  local file = io.open(_path.data .. "vox/vox_pattern.data", "w+")
+  io.output(file)
+  io.write("vox pattern file v1.0" .. "\n")
+  io.write("vox pattern" .. "\n")
+  io.close(file)
+end
+
+function load_state()
+  params:read(_path.data .. "vox/vox.pset")
+  local file = io.open(_path.data .. "vox/vox_pattern.data", "r")
+  if file then
+    print("vox pattern file loaded")
+    -- all this stuff is required only to manage the real time recording :-)
+    io.input(file)
+    if io.read() == "vox pattern file v1.0" then
+      print("valid data file")
+      io.read() == "vox patttern" 
+    else
+      print("invalid data file")
+    end
+    io.close(file)
+  end
+
 end
