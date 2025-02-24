@@ -140,6 +140,8 @@ Engine_VoxExMachina : CroneEngine{
 	    voxPhrase = msg[1];
                 Synth.new('vox.eff', [out: context.out_b.index, bufnum:voxPhrase, val:voxFreq, mode:voxMode, scale:voxScale, alpha:voxAlpha, amp:voxAmp, voice:voxVoice], context.xg);
         });
+
+       
         
         this.addCommand("mode", "i", {|msg|
              voxMode = msg[1]-1;

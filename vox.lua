@@ -67,23 +67,23 @@ function set_mode(cs, x)
 end
 
 function set_phrase(cs, x)
-	if x == 0 then engine.zero(cs:map(x)) end
-	if x == 1 then engine.one(cs:map(x)) end
-	if x == 2 then engine.two(cs:map(x)) end
-	if x == 3 then engine.three(cs:map(x)) end
-	if x == 4 then engine.four(cs:map(x)) end
-	if x == 5 then engine.five(cs:map(x)) end
-	if x == 6 then engine.six(cs:map(x)) end
-	if x == 7 then engine.seven(cs:map(x)) end
-	if x == 8 then engine.eight(cs:map(x)) end
-	if x == 9 then engine.nine(cs:map(x)) end
-	if x == 10 then engine.aay(cs:map(x)) end
-	if x == 11 then engine.bee(cs:map(x)) end
-  if x == 12 then engine.see(cs:map(x)) end
-  if x == 13 then engine.dee(cs:map(x)) end
-  if x == 14 then engine.eee(cs:map(x)) end
-  if x == 15 then engine.eff(cs:map(x)) end
-	phrase = cs:map(x)
+  phrase = cs:map(x)
+	if phrase == 0 then engine.zero(cs:map(x)) end
+	if phrase == 1 then engine.one(cs:map(x)) end
+	if phrase == 2 then engine.two(cs:map(x)) end
+	if phrase == 3 then engine.three(cs:map(x)) end
+	if phrase == 4 then engine.four(cs:map(x)) end
+	if phrase == 5 then engine.five(cs:map(x)) end
+	if phrase == 6 then engine.six(cs:map(x)) end
+	if phrase == 7 then engine.seven(cs:map(x)) end
+	if phrase == 8 then engine.eight(cs:map(x)) end
+	if phrase == 9 then engine.nine(cs:map(x)) end
+	if phrase == 10 then engine.aay(cs:map(x)) end
+	if phrase == 11 then engine.bee(cs:map(x)) end
+  if phrase == 12 then engine.see(cs:map(x)) end
+  if phrase == 13 then engine.dee(cs:map(x)) end
+  if phrase == 14 then engine.eee(cs:map(x)) end
+  if phrase == 15 then engine.eff(cs:map(x)) end
 end
 
 function set_freq(cs, x)
@@ -304,7 +304,6 @@ function enc(n, delta)
   if n == 2 then
     set_edit(edit)
   end
-  
    redraw() 
 end
 
