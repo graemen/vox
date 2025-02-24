@@ -169,10 +169,21 @@ function init()
 
     -- reduce encoder 3 sensitivity
   norns.enc.sens(3, 3) 
+
+  params:add_separator("Vox Ex Macina")
   
     -- map our supercollider controls to norns parameters
-  params:add_control("mute", cs_mute)
-  params:set_action("mute", function(x) set_mute(cs_mute, x) end)
+  --params:add_control("mute", cs_mute)
+  --params:set_action("mute", function(x) set_mute(cs_mute, x) end)
+  params:add {
+    type = 'control',
+    id = 'mute',
+    name = 'mute',
+    controlspec = cs_mute,
+    action = function(x) set_mute(cs_mute, x) end
+    }
+
+
   
   params:add_control("voice", cs_voice)
   params:set_action("voice", function(x) set_voice(cs_voice, x) end)
