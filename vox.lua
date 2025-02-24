@@ -183,29 +183,75 @@ function init()
     action = function(x) set_mute(cs_mute, x) end
     }
 
+  --params:add_control("voice", cs_voice)
+  --params:set_action("voice", function(x) set_voice(cs_voice, x) end)
+  params:add {
+    type = 'control',
+    id = 'voice',
+    name = 'voice',
+    controlspec = cs_voice,
+    action = function(x) set_mute(cs_voice, x) end
+    }
 
-  
-  params:add_control("voice", cs_voice)
-  params:set_action("voice", function(x) set_voice(cs_voice, x) end)
-  
-  params:add_control("phrase", cs_phrase)
-  params:set_action("phrase", function(x) set_phrase(cs_phrase, x) end)
-  
-  params:add_control("freq", cs_freq)
-  params:set_action("freq", function(x) set_freq(cs_freq, x) end)
+  --params:add_control("phrase", cs_phrase)
+  --params:set_action("phrase", function(x) set_phrase(cs_phrase, x) end)
+  params:add {
+    type = 'control',
+    id = 'phrase',
+    name = 'phrase',
+    controlspec = cs_phrase,
+    action = function(x) set_phrase(cs_phrase, x) end
+    }
 
-  params:add_control("mode", cs_mode)
-  params:set_action("mode", function(x) set_mode(cs_mode, x) end)
+  --params:add_control("freq", cs_freq)
+  --params:set_action("freq", function(x) set_freq(cs_freq, x) end)
+  params:add {
+    type = 'control',
+    id = 'freq',
+    name = 'freq',
+    controlspec = cs_freq,
+    action = function(x) set_freq(cs_freq, x) end
+    }
 
-  params:add_control("scale", cs_scale)
-  params:set_action("scale", function(x) set_scale(cs_scale, x) end)
-  
-  params:add_control("alpha", cs_alpha)
-  params:set_action("alpha", function(x) set_alpha(cs_alpha, x) end)
+  --params:add_control("mode", cs_mode)
+  --params:set_action("mode", function(x) set_mode(cs_mode, x) end)
+params:add {
+    type = 'control',
+    id = 'mode',
+    name = 'mode',
+    controlspec = cs_mode,
+    action = function(x) set_mode(cs_mode, x) end
+    }
 
-  params:add_control("gap", cs_gap)
-  params:set_action("gap", function(x) set_gap(cs_gap, x) end)
-	
+  --params:add_control("scale", cs_scale
+  --params:set_action("scale", function(x) set_scale(cs_scale, x) end)
+  params:add {
+    type = 'control',
+    id = 'scale',
+    name = 'scale',
+    controlspec = cs_scale,
+    action = function(x) set_scale(cs_scale, x) end
+    }
+
+  --params:add_control("alpha", cs_alpha)
+  --params:set_action("alpha", function(x) set_alpha(cs_alpha, x) end)
+params:add {
+    type = 'control',
+    id = 'alpha',
+    name = 'alpha',
+    controlspec = cs_alpha,
+    action = function(x) set_alpha(cs_alpha, x) end
+    }
+
+  --params:add_control("gap", cs_gap)
+  --params:set_action("gap", function(x) set_gap(cs_gap, x) end)
+	params:add {
+    type = 'control',
+    id = 'gap',
+    name = 'gap',
+    controlspec = cs_gap,
+    action = function(x) set_gap(cs_gap, x) end
+    }
   -- two crow inputs for cv of parameters
 	
   -- input 1 is for clock
