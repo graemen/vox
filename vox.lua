@@ -167,9 +167,7 @@ function init()
   screen.aa(0)
   screen.line_width(1)
 
-    -- reduce encoders sensitivity
-  norns.enc.sens(1, 3)
-  norns.enc.sens(2, 3)
+    -- reduce encoder 3 sensitivity
   norns.enc.sens(3, 3) 
   
     -- map our supercollider controls to norns parameters
@@ -453,7 +451,4 @@ function cleanup()
   --delete temp label files
   folder = "/home/we/dust/data/vox/"
   util.os_capture("rm "..folder.."mage-*")
-end
-
-
 end
